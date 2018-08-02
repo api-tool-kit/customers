@@ -7,7 +7,6 @@
 // handles HTTP resource operations 
 var wstl = require('./../wstl.js');
 var utils = require('./utils.js');
-var component = require('./../components/customers.js');
 
 var gTitle = "BigCo Customer Management";
 var pathMatch = new RegExp('^\/$','i');
@@ -42,9 +41,6 @@ function sendPage(req, res, respond) {
   related = {};
   content = "";
 
-  // load dynamic data
-  data = component('list');
-  
   // append current root and load actions
   for(var i=0,x=actions.length;i<x;i++) {
     actions[i].root = root;

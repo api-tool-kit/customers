@@ -17,7 +17,7 @@ var utils = require('./connectors/utils.js');
 // set up connector modules
 var connectors = {};
 connectors.home = require('./connectors/home.js');
-//connectors.customer = require('./connectors/customer.js');
+connectors.customer = require('./connectors/customer.js');
 
 // shared vars
 var root = '';
