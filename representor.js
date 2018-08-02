@@ -21,7 +21,7 @@ function main(object, mimeType, root) {
   if (!mimeType) {
     mimeType = defaultFormat;
   }
-  
+
   // dispatch to requested representor (or default)
   switch (mimeType.toLowerCase()) {
     case "application/vnd.wstl+json":

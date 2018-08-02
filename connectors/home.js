@@ -12,11 +12,9 @@ var component = require('./../components/customers.js');
 var gTitle = "BigCo Customer Management";
 var pathMatch = new RegExp('^\/$','i');
 
-var actions = [];
-
-[
+var actions = [
   {name:"dashboard",href:"/",rel:["home", "dashboard", "collection"]},
-  {name:"customer",href:"/cusomers/",rel:["collection", "customer"]}
+  {name:"customer",href:"/customers/",rel:["collection", "customer"]}
 ];
 
 exports.path = pathMatch;
