@@ -25,6 +25,7 @@ var reqd = [
     "familyName",
     "emailAddress"
 ];
+var methods = "GET POST";
 
 var conn = {name:name, props:props, reqd:reqd};
 
@@ -47,11 +48,33 @@ function main(req, res, parts, respond) {
 
   switch (req.method) {
   case 'GET':
-    sendPage(req, res, respond);
+    if(methods.indexOf("GET")!==-1) {
+      sendPage(req, res, respond);
+    } else {
+      respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
+    }
     break;
   case 'POST':
-    acceptEntry(req, res, respond);
+    if(methods.indexOf("POST")!==-1) {
+      acceptEntry(req, res, respond);
+    } else {
+      respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
+    }
     break;  
+  case "PUT":
+    if(methods.indexOf("PUT")!==-1) {
+      updateEntry(req, res, respond);
+    } else {
+      respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
+    }
+    break; 
+  case "DELETE":
+    if(methods.indexOf("DELETE")!==-1) {
+      removeEntry(req, res, respond);
+    } else {
+      respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
+    }
+    break; 
   default:
     respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
     break;
