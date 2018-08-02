@@ -18,6 +18,14 @@ var wstl = [
     kind : "customer",
     target : "link page",
     prompt : "Customers"
+  },
+  {
+    name : "listCustomers",
+    type : "safe",
+    action : "read",
+    kind : "customer",
+    target : "link page item",
+    prompt : "Customer List"
   }
 ]; 
 
