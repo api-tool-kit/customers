@@ -14,12 +14,10 @@ var pathMatch = new RegExp('^\/$','i');
 
 var actions = [];
 
-/*
 [
-  {name:"dashboard",href:"/",rel:["self", "home", "dashboard", "collection"]},
-  {name:"customers",href:"/cusomers/",rel:["collection", "customers"]}
+  {name:"dashboard",href:"/",rel:["home", "dashboard", "collection"]},
+  {name:"customer",href:"/cusomers/",rel:["collection", "customer"]}
 ];
-*/
 
 exports.path = pathMatch;
 exports.run = main;

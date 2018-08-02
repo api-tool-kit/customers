@@ -10,6 +10,13 @@ var wstl = [
     kind : "customer",
     target : "link page",
     prompt : "Home"
+  },
+  {
+    name : "customer",
+    type : "safe",
+    action : "read",
+    kind : "customer",
+    prompt : "Customers"
   }
 ]; 
 
