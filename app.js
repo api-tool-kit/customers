@@ -47,7 +47,7 @@ function handler(req, res) {
 
   // rudimentary accept-header handling
   csAccept = req.headers["accept"];
-  if(!csAccept || csAccept.indexOf(htmlType)!==-1) {
+  if(!csAccept || csAccept.indexOf(acceptType)!==-1) {
     csType = acceptType;
   }
   else {

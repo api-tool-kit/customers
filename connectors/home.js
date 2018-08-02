@@ -70,7 +70,7 @@ function sendPage(req, res, respond) {
   respond(req, res, {
     code : 200,
     doc : {
-      disco : doc
+      home : doc
     }
   });
   
