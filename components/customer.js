@@ -5,34 +5,51 @@
 
 var storage = require('./../simple-storage.js');
 var utils = require('./../connectors/utils.js');
+//var conn = require('./../connectors/customer.js');
 
 module.exports = main;
 
 // app-level actions for tasks
-function main(action, args1, args2, args3) {
+// args: conn, action, id, filter, item
+//function main(action, args1, args2, args3) {
+function main(args) {
   var name, rtn, props;
+  var conn, action, id, filter, item;
 
-  elm = 'customer';
-    
-  props = [
+  conn = args.conn||{};
+  action = args.action||"list";
+  id = args.id||"";
+  filter = args.filter||"";
+  item = args.item||{};
+
+  console.log("conn: "+args.conn);
+  
+  elm = conn.name; //'customer';    
+  props = conn.props; 
+  /*
+  [
     "id",
     "givenName",
     "familyName",
     "emailAddress",
     "phoneNumber"
   ];
+  */
+  reqd = conn.reqd;
+  /*
   reqd = [
     "givenName",
     "familyName",
     "emailAddress"
   ];
+  */
 
   switch (action) {
     case 'exists':
-      rtn = (storage({object:elm, action:'item', id:args1})===null?false:true);
+      rtn = (storage({object:elm, action:'item', id:id})===null?false:true);
       break;
     case 'props' :
-      rtn = utils.setProps(args1,props);
+      rtn = utils.setProps(item,props);
       break;  
     case 'profile':
       rtn = profile;
@@ -41,19 +58,19 @@ function main(action, args1, args2, args3) {
       rtn = utils.cleanList(storage({object:elm, action:'list'}));
       break;
     case 'read':
-      rtn = utils.cleanList(storage({object:elm, action:'item', id:args1}));
+      rtn = utils.cleanList(storage({object:elm, action:'item', id:id}));
       break;
     case 'filter':
-      rtn = utils.cleanList(storage({object:elm, action:'filter', filter:args1}));
-      break;
+      rtn = utils.cleanList(storage({object:elm, action:'filter', filter:filter}));
+      break
     case 'add':
-      rtn = addEntry(elm, args1, props);
+      rtn = addEntry(elm, item, props);
       break;
     case 'update':
-      rtn = updateEntry(elm, args1, args2, props);
+      rtn = updateEntry(elm, id, item, props);
       break;
     case 'remove':
-      rtn = removeEntry(elm, args1, args2, props);
+      rtn = removeEntry(elm, id);
       break;
     default:
       rtn = null;

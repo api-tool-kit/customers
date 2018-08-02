@@ -12,6 +12,22 @@ var wstl = require('./../wstl.js');
 var gTitle = "BigCo Customers";
 var pathMatch = new RegExp('^\/customers\/.*','i');
 
+var name = "customer";
+var props = [
+    "id",
+    "givenName",
+    "familyName",
+    "emailAddress",
+    "phoneNumber"
+];
+var reqd = [
+    "givenName",
+    "familyName",
+    "emailAddress"
+];
+
+var conn = {name:name, props:props, reqd:reqd};
+
 var actions = [
   {name:"dashboard",href:"/",rel:["home", "dashboard"]},
   {name:"listCustomers",href:"/customers/",rel:["list", "customer", "collection","listCustomer"]},
@@ -21,6 +37,9 @@ var actions = [
 
 exports.path = pathMatch;
 exports.run = main;
+exports.name = name;
+exports.props = props;
+exports.reqd = reqd;
 
 function main(req, res, parts, respond) {
 
@@ -54,10 +73,12 @@ function acceptEntry(req, res, respond) {
   // process body
   req.on('end', function() {
     try {
-      console.log(body);
-      console.log(req.headers["content-type"]);
+      console.log("body: "+body);
+      console.log("headers: " + req.headers["content-type"]);
+      console.log("conn: " + conn);
       msg = utils.parseBody(body, req.headers["content-type"]);
-      doc = customer('add', msg);
+      //doc = customer('add', msg);
+      doc = customer({conn:conn,action:"add",item:msg});
       if(doc && doc.type==='error') {
         doc = utils.errorResponse(req, res, doc.message, doc.code);
       }
@@ -96,7 +117,7 @@ function sendPage(req, res, respond) {
 
   content =  "";
  
-  data = customer("list");
+  data = customer({conn:conn,action:"list"});
  
   // compose graph 
   doc = {};
