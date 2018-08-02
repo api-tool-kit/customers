@@ -1,0 +1,49 @@
+<alps version="1.0">
+
+  <title>Customer Service</title>
+
+  <doc type="text">
+    Manages customer records for BigCo, Inc.
+  </doc>
+  
+  <!-- properties -->
+  <descriptor id="id" />
+  <descriptor id="givenName" />
+  <descriptor id="familyName" />
+  <descriptor id="emailAddress" />
+  <descriptor id="phoneNumber" />
+  <descriptor id="dateCreated" />
+  <descriptor id="dateUpdated" />
+  
+  <!-- actions -->
+  <descriptor id="listCustomers" type="safe" />
+
+  <descriptor id="filterCustomers" type="safe">
+    <descriptor href="#familyName" />
+    <descriptor href="#emailAddress" />
+  </descriptor>
+
+  <descriptor id="readCustomer" type="safe">
+    <descriptor href="#id" />
+  </descriptor>
+
+  <descriptor id="createCustomer" type="unsafe">
+    <descriptor href="#givenName" />
+    <descriptor href="#familyName" />
+    <descriptor href="#emailAddress" />
+    <descriptor href="#phoneNumber" />
+  </descriptor>  
+
+  <descriptor id="modifyCustomer" type="idempotent">
+    <descriptor href="#id" />
+    <descriptor href="#givenName" />
+    <descriptor href="#familyName" />
+    <descriptor href="#emailAddress" />
+    <descriptor href="#phoneNumber" />
+  </descriptor>
+
+  <descriptor id="removeCustomer" type="idempotent">
+    <descriptor href="#id" />  
+  </descriptor>
+  
+</alps>
