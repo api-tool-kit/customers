@@ -42,6 +42,9 @@ function processActions(obj) {
       href:obj[i].href||"#", 
       rel:obj[i].rel||[]
     };
+    if(obj[i].inputs) {
+      tmp.inputs = obj[i].inputs;
+    }
     rtn.push(tmp);
   }
   return rtn;

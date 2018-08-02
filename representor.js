@@ -11,8 +11,9 @@ var json = require('./representors/json.js');
 var html = require('./representors/html.js');
 var wstljson = require('./representors/wstljson.js');
 var jsonlinks = require('./representors/json-links.js');
+var jsonforms = require('./representors/json-forms.js');
 
-var defaultFormat = "text/html";
+var defaultFormat = "application/prs.forms+json";
 
 module.exports = main;
 
@@ -28,11 +29,17 @@ function main(object, mimeType, root) {
     case "application/vnd.wstl+json":
       doc = wstljson(object, root);
       break;
-    case "application/json":
+    case "application/prs.links+json":
       doc = jsonlinks(object, root);
       break;
+    case "application/prs.forms+json":
+      doc = jsonforms(object, root);
+      break;
+    case "application/json":
+      doc = json(object, root);
+      break;
     default:
-      doc = jsonlinks(object, root);  
+      doc = jsonforms(object, root);  
       break;
   }
 
