@@ -24,6 +24,8 @@ exports.run = main;
 
 function main(req, res, parts, respond) {
 
+  console.log("customer");
+
   switch (req.method) {
   case 'GET':
     sendPage(req, res, respond);
@@ -40,6 +42,8 @@ function main(req, res, parts, respond) {
 function acceptEntry(req, res, respond) {
   var body, doc, msg;
 
+  console.log("acceptEntry");
+
   body = '';
   
   // collect body
@@ -50,6 +54,8 @@ function acceptEntry(req, res, respond) {
   // process body
   req.on('end', function() {
     try {
+      console.log(body);
+      console.log(req.headers["content-type"]);
       msg = utils.parseBody(body, req.headers["content-type"]);
       doc = customer('add', msg);
       if(doc && doc.type==='error') {
@@ -89,7 +95,9 @@ function sendPage(req, res, respond) {
   }  
 
   content =  "";
-  
+ 
+  data = customer("list");
+ 
   // compose graph 
   doc = {};
   doc.title = gTitle;
