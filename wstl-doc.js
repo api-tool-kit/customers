@@ -16,6 +16,7 @@ var wstl = [
     type : "safe",
     action : "read",
     kind : "customer",
+    target : "link page",
     prompt : "Customers"
   }
 ]; 
