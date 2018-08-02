@@ -13,7 +13,7 @@ var gTitle = "BigCo Customer Management";
 var pathMatch = new RegExp('^\/$','i');
 
 var actions = [
-  {name:"dashboard",href:"/",rel:["home", "dashboard", "collection"]},
+  {name:"dashboard",href:"/",rel:["home", "dashboard"]},
   {name:"customer",href:"/customers/",rel:["collection", "customer"]}
 ];
 

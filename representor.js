@@ -10,6 +10,7 @@
 var json = require('./representors/json.js');
 var html = require('./representors/html.js');
 var wstljson = require('./representors/wstljson.js');
+var jsonlinks = require('./representors/json-links.js');
 
 var defaultFormat = "text/html";
 
@@ -28,10 +29,10 @@ function main(object, mimeType, root) {
       doc = wstljson(object, root);
       break;
     case "application/json":
-      doc = json(object, root);
+      doc = jsonlinks(object, root);
       break;
     default:
-      doc = json(object, root);  
+      doc = jsonlinks(object, root);  
       break;
   }
 
