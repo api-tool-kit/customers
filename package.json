@@ -1,0 +1,28 @@
+{
+  "name": "customers",
+  "version": "1.0.0",
+  "description": "bigco customer mgmt service",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/api-tool-kit/customers.git"
+  },
+  "keywords": [
+    "bigco",
+    "mamund",
+    "customers",
+    "amundsen"
+  ],
+  "author": "mamund",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/api-tool-kit/customers/issues"
+  },
+  "homepage": "https://github.com/api-tool-kit/customers#readme",
+  "dependencies": {
+    "uritemplate": "^0.3.4"
+  }
+}
