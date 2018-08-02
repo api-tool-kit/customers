@@ -13,6 +13,12 @@ function json(object) {
   
   for (var p in object) {
     response[p] = {};
+    if(object.title) {
+      response[p].title = object.title;
+    }
+    if(object.content) {
+      response[p].content = object.content;
+    }
     if(object[p].actions) {
       response[p].actions = processActions(object[p].actions);
     }

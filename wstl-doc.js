@@ -67,7 +67,7 @@ var wstl = [
   {
     name : "modifyCustomer",
     type : "idempotent",
-    action : "update"",
+    action : "update",
     kind : "customer",
     target : "link item",
     prompt : "Update Customer",
