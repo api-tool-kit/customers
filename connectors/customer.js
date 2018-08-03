@@ -5,28 +5,18 @@
  *******************************************************/
 
 // handles HTTP resource operations 
+var resource = require('./../resources/customer.js');
 var customer = require('./../components/customer.js');
 var utils = require('./utils.js');
 var wstl = require('./../wstl.js');
 
-var gTitle = "BigCo Customers";
-var pathMatch = new RegExp('^\/customers\/.*','i');
+var title = resource.title||"BigCo Customers";
+var pathMatch = resource.path; //new RegExp('^\/customers\/.*','i');
 
-var name = "customer";
-var props = [
-    "id",
-    "givenName",
-    "familyName",
-    "emailAddress",
-    "phoneNumber"
-];
-var reqd = [
-    "givenName",
-    "familyName",
-    "emailAddress"
-];
-var methods = "GET POST";
-
+var name = resource.name;
+var props = resource.props||[];
+var reqd = resource.reqd||[];
+var methods = resource.methods||"";
 var conn = {name:name, props:props, reqd:reqd};
 
 var actions = [
@@ -43,8 +33,6 @@ exports.props = props;
 exports.reqd = reqd;
 
 function main(req, res, parts, respond) {
-
-  console.log("customer");
 
   switch (req.method) {
   case 'GET':
@@ -84,8 +72,6 @@ function main(req, res, parts, respond) {
 function acceptEntry(req, res, respond) {
   var body, doc, msg;
 
-  console.log("acceptEntry");
-
   body = '';
   
   // collect body
@@ -96,12 +82,9 @@ function acceptEntry(req, res, respond) {
   // process body
   req.on('end', function() {
     try {
-      console.log("body: "+body);
-      console.log("headers: " + req.headers["content-type"]);
-      console.log("conn: " + conn);
       msg = utils.parseBody(body, req.headers["content-type"]);
       //doc = customer('add', msg);
-      doc = customer({conn:conn,action:"add",item:msg});
+      doc = customer({conn:conn, action:"add", item:msg});
       if(doc && doc.type==='error') {
         doc = utils.errorResponse(req, res, doc.message, doc.code);
       }
@@ -139,12 +122,12 @@ function sendPage(req, res, respond) {
   }  
 
   content =  "";
- 
+
   data = customer({conn:conn,action:"list"});
  
   // compose graph 
   doc = {};
-  doc.title = gTitle;
+  doc.title = title;
   doc.data =  data;
   doc.actions = coll;
   doc.content = content;
@@ -154,7 +137,7 @@ function sendPage(req, res, respond) {
   respond(req, res, {
     code : 200,
     doc : {
-      customer : doc
+      [resource.name] : doc
     }
   });
   

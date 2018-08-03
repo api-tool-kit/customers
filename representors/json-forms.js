@@ -1,7 +1,9 @@
 /*******************************************************
- * json  with links representor (server)
+ * json  with forms representor (server)
  * Mike Amundsen (@mamund)
  *******************************************************/
+
+var utils = require('./../connectors/utils.js');
 
 // json representor with naked links
 // include any data plus any named links
@@ -40,7 +42,8 @@ function processActions(obj) {
       name:obj[i].name||"link"+i, 
       prompt:obj[i].prompt||obj[i].name, 
       href:obj[i].href||"#", 
-      rel:obj[i].rel||[]
+      rel:obj[i].rel||[],
+      method:utils.actionMethod(obj[i].action)
     };
     if(obj[i].inputs) {
       tmp.inputs = obj[i].inputs;
