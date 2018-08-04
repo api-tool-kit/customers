@@ -136,6 +136,6 @@ function sendResponse(req, res, body, code, headers) {
 
 // wait for request
 http.createServer(handler).listen(port);
-console.log('registry service listening on port '+port);
+console.log('listening on port '+port);
 
 
