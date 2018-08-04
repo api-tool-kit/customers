@@ -6,7 +6,7 @@
 
 // handles HTTP resource operations 
 var resource = require('./../resources/customer.js');
-var component = require('./../components/component.js');
+var component = require('./../simple-component.js');
 var utils = require('./utils.js');
 var wstl = require('./../wstl.js');
 
