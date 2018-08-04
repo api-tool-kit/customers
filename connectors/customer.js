@@ -6,7 +6,7 @@
 
 // handles HTTP resource operations 
 var resource = require('./../resources/customer.js');
-var customer = require('./../components/customer.js');
+var component = require('./../components/component.js');
 var utils = require('./utils.js');
 var wstl = require('./../wstl.js');
 
@@ -83,8 +83,7 @@ function acceptEntry(req, res, respond) {
   req.on('end', function() {
     try {
       msg = utils.parseBody(body, req.headers["content-type"]);
-      //doc = customer('add', msg);
-      doc = customer({conn:conn, action:"add", item:msg});
+      doc = component({conn:conn, action:"add", item:msg});
       if(doc && doc.type==='error') {
         doc = utils.errorResponse(req, res, doc.message, doc.code);
       }
@@ -123,7 +122,7 @@ function sendPage(req, res, respond) {
 
   content =  "";
 
-  data = customer({conn:conn,action:"list"});
+  data = component({conn:conn,action:"list"});
  
   // compose graph 
   doc = {};
