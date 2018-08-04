@@ -9,7 +9,7 @@ var utils = require('./../connectors/utils.js');
 // include any data plus any named links
 module.exports = json;
 
-function json(object) {
+function json(object, root) {
   var i, x;
   var response = {};
   
@@ -32,7 +32,7 @@ function json(object) {
         response[p].actions = processActions(object[p].actions);
       }
       if(object[p].data) {
-        response[p].data = object[p].data;
+        response[p].data = processData(object[p].data, root);
       }
     }
   }
@@ -61,3 +61,19 @@ function processActions(obj) {
   return rtn;
 }
 
+// process any data elements
+function processData(obj, root) {
+  var rtn = [];
+  var i, x, tmp;
+
+  for(i=0,x=obj.length;i<x;i++) {
+    tmp = {}
+    tmp.href = root+"/"+obj[i].id;
+    for(var name in obj[i]) {
+      tmp[name] = obj[i][name];
+    }
+    rtn.push(tmp);
+  }
+  
+  return rtn;
+}
