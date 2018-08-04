@@ -12,18 +12,23 @@ function json(object) {
   var response = {};
   
   for (var p in object) {
-    response[p] = {};
-    if(object.title) {
-      response[p].title = object.title;
+    if(p==="error") {
+       response = object;
     }
-    if(object.content) {
-      response[p].content = object.content;
-    }
-    if(object[p].actions) {
-      response[p].actions = processActions(object[p].actions);
-    }
-    if(object[p].data) {
-      response[p].data = object[p].data;
+    else {
+      response[p] = {};
+      if(object.title) {
+        response[p].title = object.title;
+      }
+      if(object.content) {
+        response[p].content = object.content;
+      }
+      if(object[p].actions) {
+        response[p].actions = processActions(object[p].actions);
+      }
+      if(object[p].data) {
+        response[p].data = object[p].data;
+      }
     }
   }
 
