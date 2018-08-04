@@ -92,6 +92,8 @@ function acceptEntry(req, res, respond) {
       doc = utils.errorResponse(req, res, 'Server Error', 500);
     }
 
+    console.log(doc);
+
     if (!doc) {
       respond(req, res, {code:301, doc:"", 
         headers:{'location':'//'+req.headers.host+"/"}
