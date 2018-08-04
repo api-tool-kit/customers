@@ -4,6 +4,8 @@
  * Mike Amundsen (@mamund)
  *******************************************************/
 
+var qs = require('querystring');
+
 // handles HTTP resource operations 
 var resource = require('./../resources/customer.js');
 var component = require('./../simple-component.js');
@@ -33,11 +35,29 @@ exports.props = props;
 exports.reqd = reqd;
 
 function main(req, res, parts, respond) {
+  var filter, id;
 
   switch (req.method) {
   case 'GET':
     if(methods.indexOf("GET")!==-1) {
-      sendPage(req, res, respond);
+      if(parts.length>1) {
+        if(parts[1].indexOf('?')!==-1) {
+          filter = qs.parse(parts[1].substring(1));
+          sendPage(req, res, respond, filter);
+        }
+        else {
+          id = parts[1];
+          sendItem(req, res, respond, id);
+        }
+      }
+      else {
+        if(parts.length===1) {  
+          sendPage(req, res, respond);
+        }
+        else {
+          respond(req, res, utils.errorResponse(req, res, 'File Not Found', 404));
+        }
+      }
     } else {
       respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
     }
@@ -107,7 +127,45 @@ function acceptEntry(req, res, respond) {
   });
 }
 
-function sendPage(req, res, respond) {
+function updateEntry(req, res, respond) {
+  var body, doc, msg;
+
+  body = '';
+  
+  // collect body
+  req.on('data', function(chunk) {
+    body += chunk;
+  });
+
+  // process body
+  req.on('end', function() {
+    try {
+      msg = utils.parseBody(body, req.headers["content-type"]);
+      doc = component({conn:conn, action:"update", id, item:msg});
+      if(doc && doc.type==='error') {
+        doc = utils.errorResponse(req, res, doc.message, doc.code);
+      }
+    } 
+    catch (ex) {
+      doc = utils.errorResponse(req, res, 'Server Error', 500);
+    }
+
+    console.log(doc);
+
+    if (!doc) {
+      respond(req, res, {code:301, doc:"", 
+        headers:{'location':'//'+req.headers.host+"/"}
+      });
+    } 
+    else {
+      respond(req, res, {code:301, doc:doc, 
+        headers:{'location':'//'+req.headers.host+"/find/?id="+doc.id}
+      });
+    }
+  });
+}
+
+function sendItem(req, res, respond, id) {
   var doc, coll, root, data, related, content;
 
   root = 'http://'+req.headers.host;
@@ -125,6 +183,48 @@ function sendPage(req, res, respond) {
   content =  "";
 
   data = component({conn:conn,action:"list"});
+ 
+  // compose graph 
+  doc = {};
+  doc.title = title;
+  doc.data =  data;
+  doc.actions = coll;
+  doc.content = content;
+  doc.related = related;
+
+  // send the graph
+  respond(req, res, {
+    code : 200,
+    doc : {
+      [resource.name] : doc
+    }
+  });
+}
+
+function sendPage(req, res, respond, filter) {
+  var doc, coll, root, data, related, content;
+  var cmd;
+
+  root = 'http://'+req.headers.host;
+  coll = [];
+  data = [];
+  related = {};
+  content = "";
+
+  // append current root and load actions
+  for(var i=0,x=actions.length;i<x;i++) {
+    actions[i].root = root;
+    coll = wstl.append(actions[i],coll);
+  }  
+
+  content =  "";
+
+  if(filter) {
+    cmd = "filter";
+  } else {
+    cmd = "list";
+  }
+  data = component({conn:conn,action:cmd, filter:filter});
  
   // compose graph 
   doc = {};
