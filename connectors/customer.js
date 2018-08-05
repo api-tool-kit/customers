@@ -170,7 +170,12 @@ function sendItem(req, res, respond, id) {
   data = [];
   related = {};
   content = "";
-  actions = pageActions||[];
+  actions = [];
+ 
+  // load up page-level actions 
+  for(i=0,x=pageActions.length;i<x;i++) {
+    actions.push(pageActions[i]);
+  }
   actions.push({name:"readCustomer",href:"/customer/{id}",rel:["read", "customer", "item","readCustomer"]});
   actions.push({name:"modifyCustomer",href:"/customer/{id}",rel:["update","customer","item","updateCustomer"]});
   actions.push({name:"removeCustomer",href:"/customer/{id}",rel:["remove","customer","item","removeCustomer"]});
@@ -181,8 +186,6 @@ function sendItem(req, res, respond, id) {
     actions[i].href = actions[i].href.replace("{id}",id);
     coll = wstl.append(actions[i],coll);
   }  
-
-  content =  "";
 
   data = component({conn:conn,action:"read", id:id});
  
@@ -221,7 +224,6 @@ function sendPage(req, res, respond, filter) {
     coll = wstl.append(actions[i],coll);
   }  
 
-  content =  "";
 
   if(filter) {
     cmd = "filter";
