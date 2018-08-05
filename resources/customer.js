@@ -3,7 +3,7 @@
 *******************************/
 
 var title = "BigCo Customers";
-var pathMatch = new RegExp('^\/customers\/.*','i');
+var pathMatch = new RegExp('^\/customer\/.*','i');
 
 var name = "customer";
 var props = [

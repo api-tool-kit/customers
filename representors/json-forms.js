@@ -32,7 +32,7 @@ function json(object, root) {
         response[p].actions = processActions(object[p].actions);
       }
       if(object[p].data) {
-        response[p].data = processData(object[p].data, root);
+        response[p].data = processData(object[p].data, root, p);
       }
     }
   }
@@ -62,13 +62,13 @@ function processActions(obj) {
 }
 
 // process any data elements
-function processData(obj, root) {
+function processData(obj, root, p) {
   var rtn = [];
   var i, x, tmp;
 
   for(i=0,x=obj.length;i<x;i++) {
     tmp = {}
-    tmp.href = root+"/"+obj[i].id;
+    tmp.href = root+"/"+p+"/"+obj[i].id;
     for(var name in obj[i]) {
       tmp[name] = obj[i][name];
     }

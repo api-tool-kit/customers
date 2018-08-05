@@ -23,9 +23,9 @@ var conn = {name:name, props:props, reqd:reqd};
 
 var actions = [
   {name:"dashboard",href:"/",rel:["home", "dashboard"]},
-  {name:"listCustomers",href:"/customers/",rel:["list", "customer", "collection","listCustomer"]},
-  {name:"filterCustomers",href:"/customers/",rel:["list", "customer", "collection", "filterCustomer"]},
-  {name:"createCustomer",href:"/customers/",rel:["create", "customer","createCustomer"]}
+  {name:"listCustomers",href:"/customer/",rel:["list", "customer", "collection","listCustomer"]},
+  {name:"filterCustomers",href:"/customer/",rel:["list", "customer", "collection", "filterCustomer"]},
+  {name:"createCustomer",href:"/customer/",rel:["create", "customer","createCustomer"]}
 ];
 
 exports.path = pathMatch;
@@ -36,6 +36,8 @@ exports.reqd = reqd;
 
 function main(req, res, parts, respond) {
   var filter, id;
+
+  console.log(parts);
 
   switch (req.method) {
   case 'GET':
@@ -182,10 +184,11 @@ function sendItem(req, res, respond, id) {
 
   content =  "";
 
-  data = component({conn:conn,action:"list"});
+  data = component({conn:conn,action:"read", id:id});
  
   // compose graph 
   doc = {};
+  doc.root = root;
   doc.title = title;
   doc.data =  data;
   doc.actions = coll;
