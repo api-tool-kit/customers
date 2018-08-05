@@ -21,7 +21,7 @@ var reqd = resource.reqd||[];
 var methods = resource.methods||"";
 var conn = {name:name, props:props, reqd:reqd};
 
-var actions = [
+var pageActions = [
   {name:"dashboard",href:"/",rel:["home", "dashboard"]},
   {name:"listCustomers",href:"/customer/",rel:["list", "customer", "collection","listCustomer"]},
   {name:"filterCustomers",href:"/customer/",rel:["list", "customer", "collection", "filterCustomer"]},
@@ -46,7 +46,7 @@ function main(req, res, parts, respond) {
           sendPage(req, res, respond, filter);
         }
         else {
-          id = parts[1];
+          id = parts[1]||"";
           sendItem(req, res, respond, id);
         }
       }
@@ -71,14 +71,14 @@ function main(req, res, parts, respond) {
     break;  
   case "PUT":
     if(methods.indexOf("PUT")!==-1) {
-      updateEntry(req, res, respond);
+      updateEntry(req, res, respond, parts[1]||"");
     } else {
       respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
     }
     break; 
   case "DELETE":
     if(methods.indexOf("DELETE")!==-1) {
-      removeEntry(req, res, respond);
+      removeEntry(req, res, respond, parts[1]||"");
     } else {
       respond(req, res, utils.errorResponse(req, res, 'Method Not Allowed', 405));
     }
@@ -125,7 +125,7 @@ function acceptEntry(req, res, respond) {
   });
 }
 
-function updateEntry(req, res, respond) {
+function updateEntry(req, res, respond, id) {
   var body, doc, msg;
 
   body = '';
@@ -163,13 +163,14 @@ function updateEntry(req, res, respond) {
 
 function sendItem(req, res, respond, id) {
   var doc, coll, root, data, related, content;
+  var actions;
 
   root = 'http://'+req.headers.host;
   coll = [];
   data = [];
   related = {};
   content = "";
-
+  actions = pageActions||[];
   actions.push({name:"readCustomer",href:"/customer/{id}",rel:["read", "customer", "item","readCustomer"]});
   actions.push({name:"modifyCustomer",href:"/customer/{id}",rel:["update","customer","item","updateCustomer"]});
   actions.push({name:"removeCustomer",href:"/customer/{id}",rel:["remove","customer","item","removeCustomer"]});
@@ -205,13 +206,14 @@ function sendItem(req, res, respond, id) {
 
 function sendPage(req, res, respond, filter) {
   var doc, coll, root, data, related, content;
-  var cmd;
+  var cmd, actions;
 
   root = 'http://'+req.headers.host;
   coll = [];
   data = [];
   related = {};
   content = "";
+  actions = pageActions;
 
   // append current root and load actions
   for(var i=0,x=actions.length;i<x;i++) {

@@ -72,7 +72,6 @@ var wstl = [
     target : "link item",
     prompt : "Update Customer",
     inputs: [
-      {name: "id", prompt: "ID", value:"", required:true},
       {name: "givenName", prompt:"First Name", value:"", required:true},
       {name: "familyName", prompt:"Last Name", value:"", required:true},
       {name: "emailAddress", prompt:"Email", value:"", required:true},
