@@ -67,7 +67,7 @@ var wstl = [
   {
     name : "modifyCustomer",
     type : "idempotent",
-    action : "update",
+    action : "replace",
     kind : "customer",
     target : "link item",
     prompt : "Update Customer",
@@ -85,10 +85,7 @@ var wstl = [
     action : "remove",
     kind : "customer",
     target : "link item",
-    prompt : "Remove Customer",
-    inputs : [
-      {name: "id", prompt: "ID", value:"", required:true}
-    ]
+    prompt : "Remove Customer"
   }
 ]; 
 

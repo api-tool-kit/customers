@@ -18,7 +18,7 @@ var reqd = [
     "familyName",
     "emailAddress"
 ];
-var methods = "GET POST";
+var methods = "GET POST PUT DELETE";
 
 exports.name = name;
 exports.title = title;

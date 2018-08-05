@@ -19,6 +19,7 @@ function json(object, root) {
     }
     else {
       response[p] = {};
+      response.self = root;
       if(object.title) {
         response[p].title = object.title;
       }

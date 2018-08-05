@@ -37,6 +37,7 @@ function main(args) {
       rtn = utils.cleanList(storage({object:elm, action:'list'}));
       break;
     case 'read':
+    case 'item':
       rtn = utils.cleanList(storage({object:elm, action:'item', id:id}));
       break;
     case 'filter':

@@ -37,8 +37,6 @@ exports.reqd = reqd;
 function main(req, res, parts, respond) {
   var filter, id;
 
-  console.log(parts);
-
   switch (req.method) {
   case 'GET':
     if(methods.indexOf("GET")!==-1) {
@@ -114,8 +112,6 @@ function acceptEntry(req, res, respond) {
       doc = utils.errorResponse(req, res, 'Server Error', 500);
     }
 
-    console.log(doc);
-
     if (!doc) {
       respond(req, res, {code:301, doc:"", 
         headers:{'location':'//'+req.headers.host+"/"}
@@ -152,8 +148,6 @@ function updateEntry(req, res, respond) {
       doc = utils.errorResponse(req, res, 'Server Error', 500);
     }
 
-    console.log(doc);
-
     if (!doc) {
       respond(req, res, {code:301, doc:"", 
         headers:{'location':'//'+req.headers.host+"/"}
@@ -176,9 +170,14 @@ function sendItem(req, res, respond, id) {
   related = {};
   content = "";
 
+  actions.push({name:"readCustomer",href:"/customer/{id}",rel:["read", "customer", "item","readCustomer"]});
+  actions.push({name:"modifyCustomer",href:"/customer/{id}",rel:["update","customer","item","updateCustomer"]});
+  actions.push({name:"removeCustomer",href:"/customer/{id}",rel:["remove","customer","item","removeCustomer"]});
+
   // append current root and load actions
   for(var i=0,x=actions.length;i<x;i++) {
     actions[i].root = root;
+    actions[i].href = actions[i].href.replace("{id}",id);
     coll = wstl.append(actions[i],coll);
   }  
 
