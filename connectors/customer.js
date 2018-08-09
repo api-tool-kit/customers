@@ -21,12 +21,16 @@ var reqd = resource.reqd||[];
 var methods = resource.methods||"";
 var conn = {name:name, props:props, reqd:reqd};
 
+var pageActions = resource.pageActions||[];
+var itemActions = resource.itemActions||[];
+/*
 var pageActions = [
   {name:"dashboard",href:"/",rel:["home", "dashboard"]},
   {name:"listCustomers",href:"/customer/",rel:["list", "customer", "collection","listCustomer"]},
   {name:"filterCustomers",href:"/customer/",rel:["list", "customer", "collection", "filterCustomer"]},
   {name:"createCustomer",href:"/customer/",rel:["create", "customer","createCustomer"]}
 ];
+*/
 
 exports.path = pathMatch;
 exports.run = main;
@@ -176,11 +180,10 @@ function sendItem(req, res, respond, id) {
   for(i=0,x=pageActions.length;i<x;i++) {
     actions.push(pageActions[i]);
   }
-  actions.push({name:"readCustomer",href:"/customer/{id}",rel:["read", "customer", "item","readCustomer"]});
-  actions.push({name:"modifyCustomer",href:"/customer/{id}",rel:["update","customer","item","updateCustomer"]});
-  actions.push({name:"removeCustomer",href:"/customer/{id}",rel:["remove","customer","item","removeCustomer"]});
-
-  // append current root and load actions
+  for(i=0,x=itemActions.length;i<x;i++) {
+    actions.push(itemActions[i]);
+  }
+   // append current root and load actions
   for(var i=0,x=actions.length;i<x;i++) {
     actions[i].root = root;
     actions[i].href = actions[i].href.replace("{id}",id);

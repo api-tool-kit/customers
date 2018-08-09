@@ -45,17 +45,27 @@ function json(object, root) {
 function processActions(obj) {
   var rtn = [];
   var i, x, tmp;
+  var j, y, prop;
   
   for(i=0,x = obj.length;i<x;i++) {
     tmp = {
       name:obj[i].name||"link"+i, 
-      prompt:obj[i].prompt||obj[i].name, 
       href:obj[i].href||"#", 
       rel:obj[i].rel||[],
       method:utils.actionMethod(obj[i].action)
     };
+    // strip unwanted properties for inputs
     if(obj[i].inputs) {
-      tmp.inputs = obj[i].inputs;
+      tmp.inputs = [];
+      for(j=0,y=obj[i].inputs.length;j<y;j++) {
+        prop = {};
+        for(var name in obj[i].inputs[j]) {
+          if(name!=="prompt") {
+            prop[name] = obj[i].inputs[j][name];
+          }
+        }
+        tmp.inputs.push(prop);
+      } 
     }
     rtn.push(tmp);
   }
